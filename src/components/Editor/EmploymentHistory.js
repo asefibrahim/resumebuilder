@@ -21,6 +21,7 @@ const EmploymentHistory = () => {
       [targetName]: e.target.value,
     }
     employmentInfo.items.splice(i, 1, modifiedItem)
+    ctx.updateInfo(employmentInfo)
   }
   return (
     <div>
