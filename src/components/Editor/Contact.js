@@ -9,7 +9,7 @@ const Contact = () => {
   };
   const ctx = useContext(BuilderContext);
   const [contact, setContact] = useState(ctx.getComponentData("Contact"));
-
+  console.log(contact);
   const handleChange = (i, e) => {
     const modifiedItem = {
       ...contact.items[i],

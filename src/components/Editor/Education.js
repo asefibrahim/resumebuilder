@@ -1,42 +1,52 @@
-import { useState, useContext } from 'react'
-import { BuilderContext } from './../../App'
-import ActionMenu from './ActionMenu'
-import EducationItem from './EducationItem'
+import { useState, useContext, useEffect } from "react";
+import { BuilderContext } from "./../../App";
+import ActionMenu from "./ActionMenu";
+import EducationItem from "./EducationItem";
 
 const Education = () => {
-  const ctx = useContext(BuilderContext)
+  const ctx = useContext(BuilderContext);
   const newItem = {
-    degree: 'Software Engineering - University of Sydney',
-    date: 'Mar 2017 - Dec 2019',
-  }
-  const [education, setEducation] = useState(ctx.getComponentData('Education'))
-  const handleChange = (i, e) => {
-    const targetName = e.target.name
-    const modifiedItem = {
-      ...education.items[i],
-      [targetName]: e.target.value,
-    }
-    education.items.splice(i, 1, modifiedItem)
-    //ctx.updateInfo(education)
-  }
+    degree: "Software Engineering - University of Sydney",
+    date: "Mar 2017 - Dec 2019",
+  };
+  const [education, setEducation] = useState(ctx.getComponentData("Education"));
+
+  console.log(education);
+
+  const handleChange = (index, e) => {
+    const targetName = e.target.name;
+    setEducation((prevEducation) => {
+      const updatedItems = prevEducation.items.map((item, i) =>
+        i === index ? { ...item, [targetName]: e.target.value } : item
+      );
+      const updatedEducation = { ...prevEducation, items: updatedItems };
+      ctx.updateInfo(updatedEducation);
+      return updatedEducation;
+    });
+  };
+
   const handleAddClick = () => {
-    setEducation({
-      ...education,
-      items: [...education.items, newItem],
-    })
-  }
+    setEducation((prevEducation) => {
+      const updatedEducation = {
+        ...prevEducation,
+        items: [...prevEducation.items, newItem],
+      };
+      ctx.updateInfo(updatedEducation);
+      return updatedEducation;
+    });
+  };
+
   const handleRemoveClick = () => {
-    setEducation({
-      ...education,
-      items: education.items.filter(
-        (item, index) => index < education.items.length - 1
-      ),
-    })
-  }
-  const handleSaveClick = () => ctx.updateInfo(education)
+    setEducation((prevEducation) => {
+      const updatedItems = prevEducation.items.slice(0, -1);
+      const updatedEducation = { ...prevEducation, items: updatedItems };
+      ctx.updateInfo(updatedEducation);
+      return updatedEducation;
+    });
+  };
 
   return (
-    <div className='pt-6'>
+    <div>
       {education.items.map((item, index) => (
         <EducationItem
           key={index}
@@ -46,12 +56,11 @@ const Education = () => {
         />
       ))}
       <ActionMenu
-        handleSaveClick={handleSaveClick}
         handleAddClick={handleAddClick}
         handleRemoveClick={handleRemoveClick}
       />
     </div>
-  )
-}
+  );
+};
 
-export default Education
+export default Education;

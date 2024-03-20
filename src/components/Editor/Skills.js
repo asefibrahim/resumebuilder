@@ -11,6 +11,7 @@ const Skills = () => {
     level: "25",
   };
   const [skills, setSkills] = useState(ctx.getComponentData("Skills"));
+  console.log(skills);
   const handleChange = (i, e) => {
     const targetName = e.target.name;
     const modifiedItem = {
@@ -35,7 +36,7 @@ const Skills = () => {
     });
   };
   return (
-    <div className="pt-10">
+    <div className="  ">
       <ToggleButton
         defaultValue={skills.display}
         handleChange={(name, prop, isEnabled) => {
